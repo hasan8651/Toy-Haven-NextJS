@@ -31,7 +31,7 @@ export default function Navbar() {
           All Toys
         </Link>
       </li>
-      {!user?.email && (
+      {user?.email && (
         <>
           <li>
             <Link href="/add-toys" className={navClass("/add-toys")}>
@@ -112,7 +112,7 @@ export default function Navbar() {
                   title={user?.name || user?.email}
                   className="w-10 rounded-full border-2 border-white"
                 >
-                  <Image
+                  <Image width={50} height={50}
                     className="rounded-full"
                     src={
                       user?.image ||
@@ -128,7 +128,7 @@ export default function Navbar() {
                 className="mt-3 p-2 shadow dropdown-content bg-blue-500 text-white rounded-box w-52"
               >
                 <li className="flex justify-center items-center pb-2">
-                  <Image
+                  <Image width={50} height={50}
                     src={
                       user?.image ||
                       "https://img.icons8.com/windows/64/user.png"
