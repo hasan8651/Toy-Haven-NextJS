@@ -21,7 +21,7 @@ export default function Register() {
     if (status === "authenticated") {
       Swal.fire({
         position: "top-end",
-        background: '#3b82f6',
+        background: "#3b82f6",
         color: "white",
         icon: "success",
         title: "Signed in with Google!",
@@ -90,12 +90,12 @@ export default function Register() {
       setError(err.message || "Registration failed");
       Swal.fire({
         position: "top-end",
-        background: "#3b82f6",
+        background: "red",
         color: "white",
         icon: "success",
         title: "Registration failed. Please try again.",
         showConfirmButton: false,
-        timer: 1500,
+        timer: 2000,
       });
     }
   };

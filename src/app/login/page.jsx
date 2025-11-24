@@ -1,36 +1,156 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { MdVisibility, MdVisibilityOff } from "react-icons/md";
+import Swal from "sweetalert2";
 
 export default function Login() {
+  const { status } = useSession();
   const router = useRouter();
-  const [email, setEmail] = useState('');
-  const [pw, setPw] = useState('');
-  const [err, setErr] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
-  async function handleCredentials(e) {
+  useEffect(() => {
+    if (status === "authenticated") {
+      Swal.fire({
+        position: "top-end",
+        background: "#3b82f6",
+        color: "white",
+        icon: "success",
+        title: "Signed in Successfully!",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      router.push("/");
+    }
+  }, [status, router]);
+
+  const handleGoogleLogin = async () => {
+    const login = await signIn("google", {});
+    if (login?.ok) {
+      router.push("/");
+    }
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await signIn('credentials', { redirect: false, email, password: pw });
-    if (res?.error) setErr(res.error);
-    else router.push('/');
-  }
+    const form = e.currentTarget;
+    const email = form.email.value;
+    const password = form.password.value;
+
+    const res = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+    });
+
+    if (res?.ok) {
+      router.push("/");
+    } else {
+      Swal.fire({
+        position: "top-end",
+        background: "red",
+        color: "white",
+        icon: "success",
+        title: `Login Error: ${res?.error || "Invalid Credentials"}`,
+        showConfirmButton: false,
+        timer: 2000,
+      });
+    }
+  };
 
   return (
-    <div className="max-w-md mx-auto py-20 px-4">
-      <div className="border rounded p-6">
-        <h2 className="text-2xl font-bold mb-4">Sign in</h2>
+    <div>
+      <Head>
+        <title>Toy Haven - Login</title>
+      </Head>
 
-        <button onClick={() => signIn('google')} className="w-full py-2 border rounded mb-4">Continue with Google</button>
+      <div className="hero bg-base-200">
+        <div className="hero-content flex-col md:flex-row-reverse">
+          <div className="card bg-blue-50 w-full max-w-sm shrink-0 shadow-2xl">
+            <form onSubmit={handleLogin} className="card-body">
+              <div className="form-control">
+                <p className="text-center text-blue-500 font-semibold text-lg mb-4">
+                  Login to Your Account
+                </p>
+                <label className="label">
+                  <span className="label-text">Email</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Your Email"
+                  className="input input-bordered"
+                  required
+                />
+              </div>
 
-        <form onSubmit={handleCredentials} className="space-y-3">
-          <input className="w-full border p-2 rounded" placeholder="Email" value={email} onChange={e=>setEmail(e.target.value)} />
-          <input className="w-full border p-2 rounded" placeholder="Password" type="password" value={pw} onChange={e=>setPw(e.target.value)} />
-          {err && <div className="text-red-500">{err}</div>}
-          <button className="w-full py-2 bg-primary text-white rounded">Sign in</button>
-        </form>
+              <div className="form-control">
+                <label className="label">
+                  <span className="label-text">Password</span>
+                </label>
+                <div className="relative">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    name="password"
+                    placeholder="Password"
+                    className="input input-bordered pr-10"
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((s) => !s)}
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer z-50"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? (
+                      <MdVisibility size={20} />
+                    ) : (
+                      <MdVisibilityOff size={20} />
+                    )}
+                  </button>
+                </div>
+              </div>
 
-        <p className="mt-3 text-sm text-gray-600">No account? You can <span className="link text-red-500">register</span> here.</p>
+              <div className="form-control">
+                <button
+                  type="submit"
+                  className="btn w-full bg-blue-500 text-white hover:bg-blue-700"
+                >
+                  Login
+                </button>
+              </div>
+
+              <div>
+                <button
+                  onClick={handleGoogleLogin}
+                  type="button"
+                  className="btn mt-5 text-blue-500 flex items-center justify-center w-full"
+                >
+                  <Image
+                    width={100}
+                    height={100}
+                    className="w-5 mr-2"
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/480px-Google_%22G%22_logo.svg.png"
+                    alt="Google Logo"
+                    unoptimized
+                  />
+                  Continue with Google
+                </button>
+              </div>
+            </form>
+
+            <p className="text-blue-500 text-center p-4">
+              Don't have an account?{" "}
+              <Link className="text-red-500 font-semibold" href="/register">
+                Register
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
