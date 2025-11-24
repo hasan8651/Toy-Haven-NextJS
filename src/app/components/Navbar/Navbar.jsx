@@ -89,7 +89,7 @@ export default function Navbar() {
             className="flex justify-center items-center gap-2 px-4 lg:px-0 text-2xl font-bold text-white"
             href="/"
           >
-            <Image width={50} height={50} src="/logo.png" alt="logo"></Image>
+            <Image width={50} height={50} src="/logo.png" alt="logo" unoptimized></Image>
             Toy Haven
           </Link>
         </div>
@@ -118,7 +118,7 @@ export default function Navbar() {
                       user?.image ||
                       "https://img.icons8.com/windows/32/user.png"
                     }
-                    alt="user photo"
+                    alt="user photo" unoptimized
                   />
                 </div>
               </label>
@@ -134,7 +134,7 @@ export default function Navbar() {
                       "https://img.icons8.com/windows/64/user.png"
                     }
                     alt="user photo"
-                    className="rounded-full border"
+                    className="rounded-full border" unoptimized
                   />
                 </li>
                 <li className="text-center font-semibold border-b border-gray-200 pb-2">

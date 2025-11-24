@@ -12,6 +12,7 @@ export default function Footer() {
             width={60}
             height={60}
             className="md:animate-bounce"
+            unoptimized
           />
         </div>
         <div>
