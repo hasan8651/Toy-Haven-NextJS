@@ -10,19 +10,19 @@ const authOptions = {
     }),
     CredentialsProvider({
       name: "Credentials",
-      credentials: {
-        email: { label: "Email", type: "text" },
-        password: { label: "Password", type: "password" }
-      },
-      async authorize(credentials, req) {
-        // Example: allow any email/password for demo (NOT secure)
-        // In production, validate against a DB and hashed password.
-        if (!credentials?.email) return null;
-        return {
-          id: credentials.email,
-          name: credentials.email.split('@')[0],
-          email: credentials.email
-        };
+    async authorize(credentials) {
+        const res = await fetch("http://localhost:4000/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: credentials.email,
+            password: credentials.password,
+          }),
+        });
+
+        const data = await res.json();
+        if (!res.ok) return null;
+        return data.user;
       }
     })
   ],
@@ -36,18 +36,15 @@ const authOptions = {
     signIn: '/login'
   },
   callbacks: {
-    async jwt({ token, user, account }) {
-      if (user) {
-        token.user = user;
-      }
+    async jwt({ token, user }) {
+      if (user) token.user = user;
       return token;
     },
+
     async session({ session, token }) {
-      if (token?.user) {
-        session.user = token.user;
-      }
+      session.user = token.user;
       return session;
-    }
+    },
   },
   secret: process.env.NEXTAUTH_SECRET
 };

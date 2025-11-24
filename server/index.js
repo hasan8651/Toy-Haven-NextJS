@@ -1,100 +1,152 @@
-const express = require('express');
-const { MongoClient, ObjectId } = require('mongodb');
-require('dotenv').config();
+require("dotenv").config();
+const express = require("express");
+const { MongoClient, ObjectId } = require("mongodb");
 
 const app = express();
 app.use(express.json());
 
+const port = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI;
-if (!MONGODB_URI) {
-  console.error("MONGODB_URI not set in env");
-  process.exit(1);
-}
 
-let db;
 const client = new MongoClient(MONGODB_URI, {});
+
+app.get("/", (req, res) => {
+  res.send("Toy Haven server is running");
+});
 
 async function start() {
   await client.connect();
-  db = client.db('smart_db'); // default db from connection string
+  const db = client.db("smart_db");
+  const usersCollection = db.collection("users");
+  const toysCollection = db.collection("toys");
+
   console.log("Connected to MongoDB");
-  
-  const port = process.env.PORT || 4000;
-  app.listen(port, () => console.log(`Backend listening on ${port}`));
+
+  //Middleware
+  app.use((req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "GET,POST,DELETE,OPTIONS");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type,Authorization");
+    if (req.method === "OPTIONS") return res.sendStatus(200);
+    next();
+  });
+
+  // Register
+  app.post("/register", async (req, res) => {
+    try {
+      const { name, email, password, image } = req.body;
+        if (!name || !email || !password || !image)
+        return res.status(400).json({ message: "Some fields are missing" });
+      const exist = await usersCollection.findOne({ email });
+      if (exist)
+        return res.status(400).json({ message: "User already exists" });
+      const newUser = {
+        name,
+        email,
+        password,
+        image: image || "",
+        createdAt: new Date(),
+      };
+      await usersCollection.insertOne(newUser);
+      res.json({ message: "Registered successfully", user: newUser });
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // Login
+  app.post("/login", async (req, res) => {
+    try {
+      const { email, password } = req.body;
+      const user = await usersCollection.findOne({ email });
+      if (!user) return res.status(404).json({ message: "User not found" });
+      if (user.password !== password) {
+        return res.status(401).json({ message: "Wrong password" });
+      }
+      res.json({ message: "Login success", user });
+    } catch (err) {
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+
+  // GET /toys  
+  app.get("/toys", async (req, res) => {
+    try {
+      const q = req.query.q || "";
+      const filter = q ? { $text: { $search: q } } : {};
+      const toys = await toysCollection.find().toArray();
+      res.json(toys);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "server error" });
+    }
+  });
+
+  // GET /products/:id
+  app.get("/toys/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const toy = await toysCollection.findOne({ _id: new ObjectId(id) });
+      if (!toy) return res.status(404).json({ error: "not found" });
+      res.json(toy);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "server error" });
+    }
+  });
+
+  // POST /toys 
+  app.post("/toys", async (req, res) => {
+    try {
+      const {
+        toyName,
+        Category,
+        pictureURL,
+        sellerName,
+        sellerEmail,
+        price,
+        rating,
+        availableQuantity,
+        description,
+      } = req.body;
+      if (!toyName || !description)
+        return res.status(400).json({ error: "missing fields" });
+      const doc = {
+        toyName,
+        Category,
+        pictureURL,
+        sellerName,
+        sellerEmail,
+        price,
+        rating,
+        availableQuantity,
+        description,
+      };
+      const result = await toysCollection.insertOne(doc);
+      res.json({ insertedId: result.insertedId });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "server error" });
+    }
+  });
+
+  // DELETE /toys/:id
+  app.delete("/toys/:id", async (req, res) => {
+    try {
+      const id = req.params.id;
+      const result = await toysCollection.deleteOne({ _id: new ObjectId(id) });
+      if (result.deletedCount === 0)
+        return res.status(404).json({ error: "not found" });
+      res.json({ success: true });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "server error" });
+    }
+  });
+
+app.listen(port, () => console.log(`Toy Haven server is running on port: ${port}`));
 }
-start().catch(err => { console.error(err); process.exit(1); });
-
-/**
- * Simple CORS for local dev
- */
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*'); // change in prod
-  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
-  if (req.method === 'OPTIONS') return res.sendStatus(200);
-  next();
-});
-
-// GET /products  - list with optional ?q=
-app.get('/products', async (req, res) => {
-  try {
-    const q = req.query.q || '';
-    const filter = q ? { $text: { $search: q } } : {};
-    const products = await db.collection('products')
-      .find()      
-      .toArray();
-    res.json(products);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'server error' });
-  }
-});
-
-// GET /products/:id
-app.get('/products/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const product = await db.collection('products').findOne({ _id: new ObjectId(id) });
-    if (!product) return res.status(404).json({ error: 'not found' });
-    res.json(product);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'server error' });
-  }
-});
-
-// POST /products - add new (no auth or token for demo). In prod, enforce auth.
-app.post('/products', async (req, res) => {
-  try {
-    const { title, shortDesc, fullDesc, price, priority, date, image } = req.body;
-    if (!title || !shortDesc) return res.status(400).json({ error: 'missing fields' });
-    const doc = {
-      title,
-      shortDesc,
-      fullDesc: fullDesc || '',
-      price: price || '',
-      priority: priority || '',
-      date: date || new Date().toISOString(),
-      image: image || '',
-      createdAt: new Date()
-    };
-    const result = await db.collection('products').insertOne(doc);
-    res.json({ insertedId: result.insertedId });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'server error' });
-  }
-});
-
-// DELETE /products/:id
-app.delete('/products/:id', async (req, res) => {
-  try {
-    const id = req.params.id;
-    const result = await db.collection('products').deleteOne({ _id: new ObjectId(id) });
-    if (result.deletedCount === 0) return res.status(404).json({ error: 'not found' });
-    res.json({ success: true });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: 'server error' });
-  }
+start().catch((err) => {
+  console.error(err);
+  process.exit(1);
 });
