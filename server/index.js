@@ -82,6 +82,18 @@ async function start() {
     }
   });
 
+  // GET /popular-toys  
+  app.get("/popular-toys", async (req, res) => {
+    try {
+      const toys = await toysCollection.find().limit(6).toArray();
+      res.json(toys);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ error: "server error" });
+    }
+  });
+
+
   // GET /products/:id
   app.get("/toys/:id", async (req, res) => {
     try {

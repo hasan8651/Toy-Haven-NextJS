@@ -4,8 +4,9 @@ import Link from "next/link";
 import Image from "next/image";
 
 export default function ToyCard({ toy }) {
-  const { _Id, toyName, pictureURL, price, rating, availableQuantity } =
+  const { _id, toyName, pictureURL, price, rating, availableQuantity } =
     toy || {};
+
 
   return (
     <div data-aos="fade-up">
@@ -38,7 +39,7 @@ export default function ToyCard({ toy }) {
         </div>
 
         <Link
-          href={`/toy/${_Id}`}
+          href={`/toys/${_id}`}
           className="btn h-14 bg-blue-500 text-white hover:bg-blue-700"
         >
           View More
