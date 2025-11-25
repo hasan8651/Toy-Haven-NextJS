@@ -92,7 +92,7 @@ export default function Register() {
         position: "top-end",
         background: "red",
         color: "white",
-        icon: "success",
+        icon: "error",
         title: "Registration failed. Please try again.",
         showConfirmButton: false,
         timer: 2000,

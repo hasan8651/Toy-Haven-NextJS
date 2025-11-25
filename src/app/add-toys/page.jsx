@@ -1,17 +1,31 @@
 "use client";
 
-import { useState, useContext } from "react";
+import { useState } from "react";
 import Head from "next/head";
 import Swal from "sweetalert2";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export default function AddToy() {
+const { data: session, status } = useSession();
+const router = useRouter();
+const user = session?.user;
 
   const [selectedCategory, setSelectedCategory] = useState("");
+  const [submitting, setSubmitting] = useState(false);
 
 
   // Handle add toy submit
   const handleAddToy = async (e) => {
     e.preventDefault();
+
+
+if (!user?.email) {
+  Swal.fire('Login required', 'Please log in to add a toy.', 'info');
+  router.push('/login?callbackUrl=/add-toys');
+  return;
+}
+
     const form = e.target;
 
     const toyName = form.toyName.value.trim();
@@ -36,10 +50,8 @@ export default function AddToy() {
         rating,
         description,
         Category: selectedCategory,
-        // sellerName: user?.displayName,
-        // sellerEmail: user?.email,
-        sellerName: 'mahmudul hasan' ,
-        sellerEmail: 'habul3@kabul.com',
+        sellerName: user?.name || user?.email?.split('@')[0] || 'Unknown',
+  sellerEmail: user?.email
       };
 
       // Send to backend
@@ -58,7 +70,7 @@ console.log('Created:', data);
         Swal.fire({
           position: "top-end",
           icon: "success",
-          background: "linear-gradient(to right, #0A2580, #0CD4E5)",
+          background: "#3b82f6",
           color: "white",
           title: "Toy Added Successfully",
           showConfirmButton: false,
@@ -69,9 +81,15 @@ console.log('Created:', data);
         setSelectedCategory("");
       
       }
-    
+    if (status === 'loading') {
+return (
+<div className="p-6 flex items-center justify-center">
+<span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+<span className="ml-2 text-blue-600">Loading...</span>
+</div>
+);
   };
-
+  }
   return (
     <div className="flex justify-center items-center py-4">
       <Head>
@@ -194,7 +212,7 @@ console.log('Created:', data);
             <label className="font-semibold">Your Email</label>
             <input
               type="email"
-            //   value={user?.email || ""}
+              value={user?.email || ""}
               readOnly
               className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />
@@ -205,7 +223,7 @@ console.log('Created:', data);
             <label className="font-semibold">Your Name</label>
             <input
               type="text"
-            //   value={user?.displayName || ""}
+          value={user?.name || user?.email?.split('@')[0] || ''}
               readOnly
               className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
             />
@@ -213,11 +231,12 @@ console.log('Created:', data);
 
           {/* Submit Button */}
           <button
-           
-            className="btn btn-primary w-full"
-          >
-          
-          </button>
+        type="submit"
+        disabled={submitting}
+         className="btn w-full bg-blue-500 text-white hover:bg-blue-700"
+      >
+        {submitting ? 'Adding…' : 'Add Toy'}
+      </button>
         </form>
       </div>
     </div>
