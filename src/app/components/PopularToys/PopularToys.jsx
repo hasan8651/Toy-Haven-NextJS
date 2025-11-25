@@ -10,7 +10,7 @@ export default function PopularToys() {
   useEffect(() => {
     const ac = new AbortController();
 
-       fetch("http://localhost:4000/popular-toys", { signal: ac.signal })
+       fetch("/api/popular-toys", { signal: ac.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();

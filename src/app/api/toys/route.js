@@ -1,61 +1,91 @@
-export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+import clientPromise from "@/lib/mongodb";
 
-const API_BASE = process.env.API_BASE || "http://localhost:4000";
+// export async function GET() {
+//   try {
+//     const client = await clientPromise;
+//     const db = client.db("smart_db");
+//     const toysCollection = db.collection("toys");
 
-// GET /api/toys -> GET http://localhost:4000/toys
-export async function GET(request) {
-  const { searchParams } = new URL(request.url);
-  const qs = searchParams.toString();
-  const upstream = `${API_BASE}/toys${qs ? `?${qs}` : ""}`;
+//     const toys = await toysCollection.find().toArray();
+
+//     return Response.json(toys);
+//   } catch (err) {
+//     return Response.json({ error: "server error" }, { status: 500 });
+//   }
+// }
+
+
+export async function GET(req) {
   try {
-    const res = await fetch(upstream, { cache: "no-store" });
-    const data = await res.json();
-    return Response.json(data, { status: res.status });
-  } catch (e) {
-    return Response.json({ error: "Failed to fetch toys" }, { status: 500 });
+    const client = await clientPromise;
+    const db = client.db("smart_db");
+    const toys = db.collection("toys");
+
+    // Extract email from query: /api/toys?email=user@gmail.com
+    const { searchParams } = new URL(req.url);
+    const email = searchParams.get("email");
+
+    let query = {};
+
+    // Filter by email if provided
+    if (email) {
+      query.sellerEmail = email;
+    }
+
+    // find() returns ALL matches → this fixes your issue
+    const result = await toys.find(query).toArray();
+
+    return Response.json(result);
+  } catch (err) {
+    console.error(err);
+    return Response.json({ error: "server error" }, { status: 500 });
   }
 }
 
-// POST /api/toys -> POST http://localhost:4000/toys
+
+
+
+
 export async function POST(request) {
-  const { searchParams } = new URL(request.url);
-  const qs = searchParams.toString();
-  const upstream = `${API_BASE}/toys${qs ? `?${qs}` : ""}`;
   try {
-    const contentType = request.headers.get("content-type") || "";
-    let body;
-    const headers = {};
-    if (contentType.includes("application/json")) {
-      body = JSON.stringify(await request.json());
-      headers["Content-Type"] = "application/json";
-    } else if (contentType.includes("multipart/form-data")) {
-      body = await request.formData();
-    } else if (contentType.includes("application/x-www-form-urlencoded")) {
-      body = await request.text();
-      headers["Content-Type"] = "application/x-www-form-urlencoded";
-    } else {
-      body = await request.arrayBuffer();
-      if (contentType) headers["Content-Type"] = contentType;
+    const body = await request.json();
+
+    const {
+      toyName,
+      Category,
+      pictureURL,
+      sellerName,
+      sellerEmail,
+      price,
+      rating,
+      availableQuantity,
+      description,
+    } = body;
+
+    if (!toyName || !description) {
+      return Response.json({ error: "missing fields" }, { status: 400 });
     }
 
-    const res = await fetch(upstream, {
-      method: "POST",
-      headers,
-      body,
-    });
+    const client = await clientPromise;
+    const db = client.db("smart_db");
+    const toysCollection = db.collection("toys");
 
-    const resType = res.headers.get("content-type") || "";
-    if (resType.includes("application/json")) {
-      const data = await res.json();
-      return Response.json(data, { status: res.status });
-    }
-    const text = await res.text();
-    return new Response(text, {
-      status: res.status,
-      headers: { "Content-Type": resType || "text/plain" },
-    });
-  } catch (e) {
-    return Response.json({ error: "Failed to create toy" }, { status: 500 });
+    const doc = {
+      toyName,
+      Category,
+      pictureURL,
+      sellerName,
+      sellerEmail,
+      price,
+      rating,
+      availableQuantity,
+      description,
+    };
+
+    const result = await toysCollection.insertOne(doc);
+
+    return Response.json({ insertedId: result.insertedId });
+  } catch (err) {
+    return Response.json({ error: "server error" }, { status: 500 });
   }
 }

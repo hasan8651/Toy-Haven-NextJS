@@ -27,7 +27,7 @@ export default function Navbar() {
         </Link>
       </li>
       <li>
-        <Link href="/all-toys" className={navClass("/all-toys")}>
+        <Link href="/toys" className={navClass("/toys")}>
           All Toys
         </Link>
       </li>
