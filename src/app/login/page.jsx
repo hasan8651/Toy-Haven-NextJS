@@ -73,8 +73,6 @@ export default function Login() {
           <div className="card bg-blue-50 w-full shrink-0 shadow-2xl">
             <form onSubmit={handleLogin} className="card-body">
               <div className="form-control">
-
-                
                 <p className="text-center bg-blue-500 text-white px-12 py-2 rounded-md font-semibold text-lg mb-4">
                   Login to Your Account
                 </p>

@@ -1,9 +1,9 @@
 import { withAuth } from 'next-auth/middleware';
 
 export default withAuth({
-pages: { signIn: '/login' }, // where to send unauthenticated users
+pages: { signIn: '/login' },
 callbacks: {
-authorized: ({ token }) => !!token // only allow when logged in
+authorized: ({ token }) => !!token
 }
 });
 
@@ -12,6 +12,6 @@ matcher: [
 '/add-toys',
 '/manage-toys',
 '/edit-toy/(.+)',
-'/toys/(.+)' // protects /toys/[id] (details)
+'/toys/(.+)'
 ]
 };

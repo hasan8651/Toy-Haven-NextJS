@@ -12,7 +12,6 @@ import Swal from "sweetalert2";
 export default function Register() {
   const { status } = useSession();
   const router = useRouter();
-
   const [error, setError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [showPassword, setShowPassword] = useState(false);

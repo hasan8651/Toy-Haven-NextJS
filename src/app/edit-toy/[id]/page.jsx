@@ -1,18 +1,17 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import { useParams, useRouter } from 'next/navigation';
-import Image from 'next/image';
-import Swal from 'sweetalert2';
+import { useEffect, useState } from "react";
+import Head from "next/head";
+import { useParams, useRouter } from "next/navigation";
+import Swal from "sweetalert2";
 
 export default function EditToy() {
-  const { id } = useParams(); // from /dashboard/edit-toy/[id]
+  const { id } = useParams();
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
   const [toy, setToy] = useState(null);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   // Prefill form with toy data
   useEffect(() => {
@@ -20,15 +19,13 @@ export default function EditToy() {
 
     (async () => {
       try {
-        const res = await fetch(`/api/toys/${id}`, { cache: 'no-store' });
-        
-        if (!res.ok) throw new Error('Failed to load toy');
+        const res = await fetch(`/api/toys/${id}`, { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed to load toy");
         const data = await res.json();
         setToy(data);
-               setSelectedCategory(data?.Category || '');
-               
+        setSelectedCategory(data?.Category || "");
       } catch (e) {
-        Swal.fire('Error', 'Failed to load toy details.', 'error');
+        Swal.fire("Error", "Failed to load toy details.", "error");
       } finally {
         setLoading(false);
       }
@@ -36,63 +33,63 @@ export default function EditToy() {
   }, [id]);
 
   const handleUpdateToy = async (e) => {
-e.preventDefault();
-const form = e.currentTarget;
+    e.preventDefault();
+    const form = e.currentTarget;
 
-const toyName = form.toyName.value.trim();
-const pictureURL = form.imageURL.value.trim();
-const price = parseFloat(form.price.value);
-const quantity = parseInt(form.quantity.value, 10);
-const rating = parseFloat(form.rating.value);
-const description = form.description.value.trim();
+    const toyName = form.toyName.value.trim();
+    const pictureURL = form.imageURL.value.trim();
+    const price = parseFloat(form.price.value);
+    const quantity = parseInt(form.quantity.value, 10);
+    const rating = parseFloat(form.rating.value);
+    const description = form.description.value.trim();
 
-if (!toyName || !selectedCategory || isNaN(price) || isNaN(quantity) || isNaN(rating)) {
-Swal.fire('Missing Fields', 'Please fill all required fields.', 'info');
-return;
-}
+    if (
+      !toyName ||
+      !selectedCategory ||
+      isNaN(price) ||
+      isNaN(quantity) ||
+      isNaN(rating)
+    ) {
+      Swal.fire("Missing Fields", "Please fill all required fields.", "info");
+      return;
+    }
 
-const payload = {
-// _id: id,
-toyName,
-pictureURL,
-price,
-availableQuantity: quantity,
-rating,
-description,
-Category: selectedCategory
-};
+    const payload = {
+      toyName,
+      pictureURL,
+      price,
+      availableQuantity: quantity,
+      rating,
+      description,
+      Category: selectedCategory,
+    };
 
-try {
-const result = await fetch(`/api/toys/${id}`, {
-method: 'PUT',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(payload)
-});
+    try {
+      const result = await fetch(`/api/toys/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
-console.log(result.ok)
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        background: "#3b82f6",
+        color: "white",
+        title: "Toy updated successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-
-// if (!result.ok) {
-//   const err = await result.json().catch(() => ({}));
-//   console.warn('Update failed', result.status, err);
-//   throw new Error(err.message || `HTTPhhh ${result.status}`);
-// }
-
-Swal.fire({
-  position: 'top-end',
-  icon: 'success',
-  background: '#3b82f6',
-  color: 'white',
-  title: 'Toy updated successfully',
-  showConfirmButton: false,
-  timer: 1500
-});
-
-router.push('/manage-toys'); // adjust if your path differs
-} catch (err) {
-Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'error');
-}
-};
+      router.push("/manage-toys");
+    } catch (err) {
+      Swal.fire(
+        "Error",
+        err.message || "Failed to update toy. Please try again.",
+        "error"
+      );
+    }
+  };
 
   if (loading) {
     return (
@@ -112,19 +109,14 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
       <Head>
         <title>Toy Haven - Edit Toy</title>
       </Head>
-
       <div className="shadow-lg bg-blue-50 rounded-xl p-8 max-w-2xl w-full space-y-6 mx-4">
-  <h1 className='w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md'>
+        <h1 className="w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md">
           Edit Toy
         </h1>
-     <p className="text-center  text-blue-600 mb-4">
+        <p className="text-center  text-blue-600 mb-4">
           Update your toy details below.
         </p>
-
-    
-
         <form onSubmit={handleUpdateToy} className="space-y-4">
-          {/* Toy Name */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Toy Name</label>
             <input
@@ -137,7 +129,6 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             />
           </div>
 
-          {/* Image URL */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Image URL</label>
             <input
@@ -149,7 +140,6 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             />
           </div>
 
-          {/* Price */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Price ($)</label>
             <input
@@ -163,7 +153,6 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             />
           </div>
 
-          {/* Quantity */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Quantity</label>
             <input
@@ -176,7 +165,6 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             />
           </div>
 
-          {/* Rating */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Rating (1–5)</label>
             <input
@@ -191,7 +179,6 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             />
           </div>
 
-          {/* Category */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Category</label>
             <select
@@ -201,7 +188,7 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
               className="select select-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
             >
               <option value="">Select Category</option>
-            <option value="Dolls">Dolls</option>
+              <option value="Dolls">Dolls</option>
               <option value="Soft Toys">Soft Toys</option>
               <option value="RC Toys">RC Toys</option>
               <option value="Puzzles">Puzzles</option>
@@ -214,7 +201,6 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             </select>
           </div>
 
-          {/* Description */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Description</label>
             <textarea
@@ -226,29 +212,26 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
             />
           </div>
 
-          {/* Seller Email */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Seller Email</label>
             <input
               type="email"
               readOnly
-              defaultValue={toy.sellerEmail || ''}
+              defaultValue={toy.sellerEmail || ""}
               className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed cursor-not-allowed"
             />
           </div>
 
-          {/* Seller Name */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Seller Name</label>
             <input
               type="text"
               readOnly
-              defaultValue={toy.sellerName || ''}
+              defaultValue={toy.sellerName || ""}
               className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed cursor-not-allowed"
             />
           </div>
 
-          {/* Submit Button */}
           <button className="btn w-full py-6 bg-blue-500 text-white text-lg hover:bg-blue-700">
             Update Toy
           </button>

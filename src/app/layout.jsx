@@ -18,29 +18,23 @@ export const metadata = {
   title: "Toy Haven",
   description: "Online Toy Shop",
 
-
   icons: {
-icon: [
-{ url: '/logo.png', sizes: '32x32', type: 'image/png' }, // optional
-],
-
-  }
-
-
+    icon: [
+      { url: "/logo.png", sizes: "32x32", type: "image/png" }, // optional
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {
-return (
-<html lang="en">
-<body className="min-h-dvh flex flex-col bg-white">
-<Providers>
-<Navbar />
-<main className="flex-1">
-{children}
-</main>
-<Footer />
-</Providers>
-</body>
-</html>
-);
+  return (
+    <html lang="en">
+      <body className="min-h-dvh flex flex-col bg-white">
+        <Providers>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </Providers>
+      </body>
+    </html>
+  );
 }
