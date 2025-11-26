@@ -1,4 +1,3 @@
-// app/dashboard/manage-toys/page.jsx
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -83,71 +82,73 @@ cancelButtonColor: '#6b7280', // gray-500
   }
 
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-semibold mb-6 text-blue-600">Manage Your Toys</h1>
+    <div className="p-6 bg-blue-50 mx-auto md:py-4 my-2 rounded-xl shadow-md">
+                 <h1 className='text-2xl md:text-3xl py-4 mb-2 font-semibold text-center bg-blue-500 text-white rounded-md'>
+     Manage Your Toys
+      </h1>
 
       {toys.length === 0 ? (
-        <p className="text-gray-600">You haven&apos;t added any toys yet.</p>
+        <p className="text-red-600 text-2xl text-center font-semibold">You haven't added any toys yet.</p>
       ) : (
         <div className="overflow-x-auto">
-          <div className="overflow-hidden rounded-xl border border-blue-200 bg-white shadow-sm">
+          <div>
             <table className="min-w-full text-sm">
-              <thead className="bg-blue-600 text-white">
-                <tr>
-                  <th className="px-4 py-3 text-left font-semibold">Toy</th>
-                  <th className="px-4 py-3 text-left font-semibold">Category</th>
-                  <th className="px-4 py-3 text-left font-semibold">Price</th>
-                  <th className="px-4 py-3 text-left font-semibold">Rating</th>
-                  <th className="px-4 py-3 text-left font-semibold">In Stock</th>
-                  <th className="px-4 py-3 text-center font-semibold">Actions</th>
+              <thead>
+                <tr className="bg-blue-500 text-white">
+                  <th className="px-4 py-2 text-left font-semibold rounded-tl-2xl">Toy</th>
+                  <th className="px-4 py-2 text-left font-semibold">Category</th>
+                  <th className="px-4 py-2 text-left font-semibold">Price</th>
+                  <th className="px-4 py-2 text-left font-semibold">Rating</th>
+                  <th className="px-4 py-2 text-left font-semibold">In Stock</th>
+                  <th className="px-4 py-2 text-center font-semibold rounded-tr-2xl">Actions</th>
                 </tr>
               </thead>
 
               {/* Row borders */}
-              <tbody className="divide-y divide-blue-100 text-gray-700">
+              <tbody className="divide-y-2 divide-blue-500 text-blue-600 border-2 border-blue-500">
                 {toys.map((toy) => {
                   const price = Number(toy.price || 0);
                   const rating = Number(toy.rating || 0);
                   const stock = Number(toy.availableQuantity || 0);
 
                   return (
-                    <tr key={toy._id} className="hover:bg-blue-50 transition-colors">
+                    <tr key={toy._id}>
                       {/* Thumbnail + name */}
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
-                          <div className="relative h-14 w-14 shrink-0">
+                          <div className="relative h-18 w-20 shrink-0">
                             <Image
-                              src={toy.pictureURL || '/placeholder.png'}
+                              src={toy.pictureURL || ''}
                               alt={toy.toyName || 'Toy'}
                               width={56}
                               height={56}
-                              className="h-14 w-14 rounded-md object-cover ring-1 ring-blue-100"
+                              className="w-20 h-16 rounded-md object-cover ring-1 ring-blue-500"
                               unoptimized
                             />
                           </div>
                           <div className="min-w-0">
-                            <div className="font-medium text-gray-900">{toy.toyName}</div>
+                            <div className="font-medium md:text-lg text-blue-600">{toy.toyName}</div>
                             {/* Optional subtext */}
-                            <div className="text-xs text-gray-500 truncate">{toy?.sellerName || ''}</div>
+                            <div className="text-sm md:text-md text-gray-500 truncate">{toy?.sellerName || 'Unknown Seller'}</div>
                           </div>
                         </div>
                       </td>
 
-                      <td className="px-4 py-3">{toy.Category}</td>
-                      <td className="px-4 py-3">${price.toFixed(2)}</td>
+                      <td className="px-4 py-3 font-medium md:text-lg">{toy.Category}</td>
+                      <td className="px-4 py-3 font-medium md:text-lg">${price}</td>
 
                       {/* Rating: */}
-                      <td className="px-4 py-3">
-                        <span className="inline-flex items-center gap-1 text-gray-700">
-                          <span className="text-yellow-500">★</span>
-                          <span>Rating: {rating.toFixed(1)}</span>
+                      <td className="px-4 py-3 font-medium md:text-lg">
+                        <span className="inline-flex items-center gap-1 text-blue-600">
+                          <span className="text-yellow-600">★:</span>{' '}
+                          <span>{rating}</span>
                         </span>
                       </td>
 
                       {/* In Stock: */}
-                      <td className="px-4 py-3">
-                        <span className={stock > 0 ? 'text-green-600 font-medium' : 'text-red-600 font-medium'}>
-                          In Stock: {stock}
+                      <td className="px-4 py-3 font-medium md:text-lg">
+                        <span className={stock > 0 ? 'text-blue-600' : 'text-red-600'}>
+                          {stock} pcs
                         </span>
                       </td>
 
@@ -156,21 +157,21 @@ cancelButtonColor: '#6b7280', // gray-500
                         <div className="flex items-center justify-center gap-2">
                           <Link
                             href={`/toys/${toy._id}`}
-                            className="inline-flex items-center rounded-md bg-blue-600 px-3 py-1.5 text-white shadow-sm hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition"
+                            className="btn inline-flex items-center rounded-md bg-blue-600 w-1/4 text-white shadow-md hover:bg-blue-700"
                           >
                             View
                           </Link>
 
                           <Link
                             href={`/edit-toy/${toy._id}`}
-                            className="inline-flex items-center rounded-md border border-blue-300 bg-white px-3 py-1.5 text-blue-700 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 transition"
+                            className="btn inline-flex items-center rounded-md bg-orange-500 w-1/4 text-white shadow-md hover:bg-orange-600"
                           >
                             Edit
                           </Link>
 
                           <button
                             onClick={() => handleDelete(toy._id)}
-                            className="inline-flex items-center rounded-md border border-red-300 bg-white px-3 py-1.5 text-red-600 hover:bg-red-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 transition"
+                            className="btn inline-flex items-center rounded-md bg-red-500 w-1/4 text-white shadow-md hover:bg-red-600"
                           >
                             Delete
                           </button>
@@ -181,17 +182,15 @@ cancelButtonColor: '#6b7280', // gray-500
                 })}
               </tbody>
 
-              <tfoot className="bg-blue-50">
-                <tr>
-                  <td className="px-4 py-3 text-sm text-blue-700" colSpan={6}>
-                    Total toys: {toys.length}
-                  </td>
-                </tr>
-              </tfoot>
             </table>
           </div>
+            
+             
         </div>
       )}
+                  <div className="px-4 py-3 my-4 rounded-b-2xl bg-blue-500 text-white">
+                    Total Toys: {toys.length}
+                  </div>
     </div>
   );
 }

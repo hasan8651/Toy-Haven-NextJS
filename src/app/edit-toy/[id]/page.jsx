@@ -113,39 +113,24 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
         <title>Toy Haven - Edit Toy</title>
       </Head>
 
-      <div className="shadow-lg card-surface rounded-xl p-8 max-w-2xl w-full space-y-6">
-        <h1 className="text-3xl text-center font-bold text-blue-600">
+      <div className="shadow-lg bg-blue-50 rounded-xl p-8 max-w-2xl w-full space-y-6 mx-4">
+  <h1 className='w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md'>
           Edit Toy
         </h1>
-        <p className="text-center text-sm text-gray-500 mb-4">
+     <p className="text-center  text-blue-600 mb-4">
           Update your toy details below.
         </p>
 
-        {/* Thumbnail preview */}
-        <div className="flex items-center gap-3">
-          <div className="relative h-16 w-16">
-            <Image
-              src={toy.pictureURL || '/placeholder.png'}
-              alt={toy.toyName || 'Toy'}
-              width={64}
-              height={64}
-              className="h-16 w-16 rounded-md object-cover ring-1 ring-blue-100"
-              unoptimized
-            />
-          </div>
-          <div className="text-sm text-gray-600">
-            Current image preview
-          </div>
-        </div>
+    
 
         <form onSubmit={handleUpdateToy} className="space-y-4">
           {/* Toy Name */}
           <div className="form-control">
-            <label className="font-semibold">Toy Name</label>
+            <label className="font-semibold text-blue-600">Toy Name</label>
             <input
               name="toyName"
               type="text"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
               placeholder="Enter toy name"
               defaultValue={toy.toyName}
               required
@@ -154,46 +139,46 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
 
           {/* Image URL */}
           <div className="form-control">
-            <label className="font-semibold">Image URL</label>
+            <label className="font-semibold text-blue-600">Image URL</label>
             <input
               name="imageURL"
               type="url"
-              placeholder="https://example.com/toy.jpg"
-              className="input input-bordered w-full"
+              placeholder="https://imageSite.com/toy.jpg"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
               defaultValue={toy.pictureURL}
             />
           </div>
 
           {/* Price */}
           <div className="form-control">
-            <label className="font-semibold">Price ($)</label>
+            <label className="font-semibold text-blue-600">Price ($)</label>
             <input
               name="price"
               type="number"
               min="0"
               step="0.01"
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
               defaultValue={toy.price}
             />
           </div>
 
           {/* Quantity */}
           <div className="form-control">
-            <label className="font-semibold">Quantity</label>
+            <label className="font-semibold text-blue-600">Quantity</label>
             <input
               name="quantity"
               type="number"
               min="0"
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
               defaultValue={toy.availableQuantity}
             />
           </div>
 
           {/* Rating */}
           <div className="form-control">
-            <label className="font-semibold">Rating (1–5)</label>
+            <label className="font-semibold text-blue-600">Rating (1–5)</label>
             <input
               name="rating"
               type="number"
@@ -201,65 +186,70 @@ Swal.fire('Error', err.message || 'Failed to update toy. Please try again.', 'er
               max="5"
               step="0.1"
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
               defaultValue={toy.rating}
             />
           </div>
 
           {/* Category */}
           <div className="form-control">
-            <label className="font-semibold">Category</label>
+            <label className="font-semibold text-blue-600">Category</label>
             <select
               value={selectedCategory}
               required
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
             >
               <option value="">Select Category</option>
+            <option value="Dolls">Dolls</option>
+              <option value="Soft Toys">Soft Toys</option>
+              <option value="RC Toys">RC Toys</option>
+              <option value="Puzzles">Puzzles</option>
+              <option value="Vehicles">Vehicles</option>
               <option value="Educational">Educational</option>
               <option value="Robotics">Robotics</option>
-              <option value="Dolls">Dolls</option>
-              <option value="Action Figures">Action Figures</option>
-              <option value="Vehicle Toys">Vehicle Toys</option>
+              <option value="Outdoor Toys">Outdoor Toys</option>
+              <option value="Musical Instruments">Musical Instruments</option>
+              <option value="Outdoor Toys">Science Kits</option>
             </select>
           </div>
 
           {/* Description */}
           <div className="form-control">
-            <label className="font-semibold">Description</label>
+            <label className="font-semibold text-blue-600">Description</label>
             <textarea
               name="description"
               required
               placeholder="Enter toy description..."
-              className="textarea textarea-bordered w-full"
+              className="textarea textarea-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
               defaultValue={toy.description}
             />
           </div>
 
           {/* Seller Email */}
           <div className="form-control">
-            <label className="font-semibold">Seller Email</label>
+            <label className="font-semibold text-blue-600">Seller Email</label>
             <input
               type="email"
               readOnly
               defaultValue={toy.sellerEmail || ''}
-              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed cursor-not-allowed"
             />
           </div>
 
           {/* Seller Name */}
           <div className="form-control">
-            <label className="font-semibold">Seller Name</label>
+            <label className="font-semibold text-blue-600">Seller Name</label>
             <input
               type="text"
               readOnly
               defaultValue={toy.sellerName || ''}
-              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed cursor-not-allowed"
             />
           </div>
 
           {/* Submit Button */}
-          <button  className="btn w-full bg-blue-500 text-white hover:bg-blue-700">
+          <button className="btn w-full py-6 bg-blue-500 text-white text-lg hover:bg-blue-700">
             Update Toy
           </button>
         </form>

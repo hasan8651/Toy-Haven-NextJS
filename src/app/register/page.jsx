@@ -106,53 +106,53 @@ export default function Register() {
         <title>Toy Haven - Register</title>
       </Head>
 
-      <div className="hero bg-base-200">
+      <div className="hero">
         <div className="hero-content flex-col md:flex-row-reverse">
           <div className="card bg-blue-50 w-full max-w-sm shrink-0 shadow-2xl">
             <form onSubmit={handleRegister} className="card-body">
               <div className="form-control">
-                <p className="text-center text-blue-500 font-semibold text-lg mb-4">
+           <p className="text-center bg-blue-500 text-white px-12 py-2 rounded-md font-semibold text-lg mb-4">
                   Register Your Account
                 </p>
-                <label className="label">
+                <label className="label font-semibold text-blue-600">
                   <span className="label-text">Name</span>
                 </label>
                 <input
                   type="text"
                   name="name"
                   placeholder="Your Name"
-                  className="input input-bordered"
+                  className="input input-bordered border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label font-semibold text-blue-600">
                   <span className="label-text">Email</span>
                 </label>
                 <input
                   type="email"
                   name="email"
                   placeholder="Your Email"
-                  className="input input-bordered"
+                  className="input input-bordered border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
                   required
                 />
               </div>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label font-semibold text-blue-600">
                   <span className="label-text">Photo URL</span>
                 </label>
                 <input
                   type="url"
                   name="photoURL"
                   placeholder="Photo URL (optional)"
-                  className="input input-bordered"
+                  className="input input-bordered border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
                 />
               </div>
 
               <div className="form-control">
-                <label className="label">
+                <label className="label font-semibold text-blue-600">
                   <span className="label-text">Password</span>
                 </label>
                 <div className="relative">
@@ -160,13 +160,13 @@ export default function Register() {
                     type={showPassword ? "text" : "password"}
                     name="password"
                     placeholder="Password"
-                    className="input input-bordered pr-10"
+                    className="input input-bordered pr-10 border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
                     required
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((s) => !s)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer z-50"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer z-50 text-blue-600"
                     aria-label="Toggle password visibility"
                   >
                     {showPassword ? (
@@ -199,7 +199,7 @@ export default function Register() {
                 <button
                   onClick={handleGoogleLogin}
                   type="button"
-                  className="btn mt-5 text-blue-500 flex items-center justify-center w-full"
+                  className="btn mt-5 text-blue-600 bg-white border border-blue-500 hover:bg-blue-200 flex items-center justify-center w-full"
                 >
                   <Image
                     width={100}

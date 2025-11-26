@@ -1,8 +1,36 @@
 "use client";
 import { useEffect, useState } from "react";
 import ToyCard from "../components/ToyCard/ToyCard";
+import { useRouter, useSearchParams } from "next/navigation";
+
+
+const CATEGORY_OPTIONS = [
+  'All',
+  'Dolls',
+  'Soft Toys',
+  'RC Toys',
+  'Puzzles',
+  'Vehicles',
+  'Educational',
+  'Robotics',
+'Outdoor Toys',
+'Musical Instruments',
+'Science Kits'
+];
+
 
 export default function Page() {
+  // const router = useRouter();
+   const searchParams = useSearchParams();
+
+// Read initial values from URL (?q=&category=)
+  const initialQ = searchParams.get('q') || '';
+  const initialCat = searchParams.get('category') || 'All';
+
+  // const [query, setQuery] = useState(initialQ);
+  const [category, setCategory] = useState('');
+    const [search, setSearch] = useState("");
+
   const [toys, setToys] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,6 +52,17 @@ export default function Page() {
     return () => ac.abort();
   }, []);
 
+  // Filtered products based on search and category
+  const filteredToys = toys.filter(
+    (toy) =>
+      toy.toyName.toLowerCase().includes(search.toLowerCase()) &&
+      (category ? toy.Category === category : true)
+  );
+
+
+
+
+
   if (loading) {
     return <p>Loading…</p>;
   }
@@ -34,12 +73,58 @@ export default function Page() {
 
   return (
     <div>
-      <h2>All Toys page</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {toys.map((toy) => (
+          <h1 className='text-2xl md:text-3xl py-4 my-4 font-semibold text-center bg-blue-500 text-white rounded-md'>
+        All Toys
+      </h1>
+
+
+
+{/* Filters */}
+      <form  className="max-w-3xl mx-auto  mb-4 flex justify-center gap-3">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search toys…"
+          className="md:w-2/5 rounded-md border font-semibold border-blue-500 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+        />
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="md:w-2/5 rounded-md border font-semibold border-blue-500 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          {CATEGORY_OPTIONS.map((c) => (
+            <option className="bg-blue-500" key={c} value={c}>
+              {c}
+            </option>
+          ))}
+        </select>
+        {/* <div className="md:col-span-1 flex gap-2"> */}
+          <button
+            type="submit"
+            className="md:w-1/5 rounded-md btn h-12 bg-blue-500 text-white hover:bg-blue-700  px-3 py-2"
+          >
+            Clear
+          </button>
+         
+        {/* </div> */}
+      </form>
+
+      {/* Status row */}
+      {/* <div className="max-w-7xl mx-auto mb-2 text-sm text-gray-600">{countText}</div> */}
+
+
+
+
+
+ {filteredToys.length === 0 ? (
+          <p className="text-center text-2xl py-16 font-bold text-red-600">No toys found</p>
+        ) : (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">
+        {filteredToys.map((toy) => (
           <ToyCard key={toy._id} toy={toy} />
         ))}
       </div>
+        )}
     </div>
   );
 }

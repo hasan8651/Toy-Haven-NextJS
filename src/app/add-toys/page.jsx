@@ -96,22 +96,22 @@ return (
         <title>Toy Haven - Add Toy</title>
       </Head>
 
-      <div className="shadow-lg card-surface rounded-xl p-8 max-w-2xl w-full space-y-6">
-        <h1 className="text-3xl text-center font-bold text-blue-600">
+      <div className="shadow-lg bg-blue-50 rounded-xl p-8 max-w-2xl md:max-w-3xl w-full space-y-6 mx-4">
+       <h1 className='w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md'>
           Add a New Toy
         </h1>
-        <p className="text-center text-sm text-gray-500 mb-4">
+        <p className="text-center  text-blue-600 mb-4">
           Add high-quality toy details for better visibility!
         </p>
 
         <form onSubmit={handleAddToy} className="space-y-4">
           {/* Toy Name */}
           <div className="form-control">
-            <label className="font-semibold">Toy Name</label>
+            <label className="font-semibold text-blue-600">Toy Name</label>
             <input
               name="toyName"
               type="text"
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
               placeholder="Enter toy name"
               required
             />
@@ -119,54 +119,43 @@ return (
 
           {/* Image Upload */}
           <div className="form-control">
-            <label className="font-semibold">Toy Image</label>
-            {/* <input
-              type="file"
-              accept="image/*"
-                            className="file-input file-input-bordered w-full"
-            /> */}
-
-          </div>
-
-          {/* URL fallback */}
-          <div className="form-control">
-            <label className="font-semibold">Or Paste Image URL</label>
-            <input
+            <label className="font-semibold text-blue-600">Toy Image (Paste Image URL)</label>
+                      <input
               name="imageURL"
               type="url"
-              placeholder="https://example.com/toy.jpg"
-              className="input input-bordered w-full"
+              placeholder="https://imagehosting.com/toy.jpg"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Price */}
           <div className="form-control">
-            <label className="font-semibold">Price ($)</label>
+            <label className="font-semibold text-blue-600">Price ($)</label>
             <input
               name="price"
               type="number"
               min="0"
               step="0.01"
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Quantity */}
           <div className="form-control">
-            <label className="font-semibold">Quantity</label>
+            <label className="font-semibold text-blue-600">Quantity</label>
             <input
               name="quantity"
               type="number"
               min="1"
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Rating */}
           <div className="form-control">
-            <label className="font-semibold">Rating (1–5)</label>
+            <label className="font-semibold text-blue-600">Rating (1–5)</label>
             <input
               name="rating"
               type="number"
@@ -174,58 +163,63 @@ return (
               max="5"
               step="0.1"
               required
-              className="input input-bordered w-full"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Category */}
           <div className="form-control">
-            <label className="font-semibold">Category</label>
+            <label className="font-semibold text-blue-600">Category</label>
             <select
               value={selectedCategory}
               required
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="select select-bordered w-full"
+              className="select select-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select Category</option>
+              <option value="Dolls">Dolls</option>
+              <option value="Soft Toys">Soft Toys</option>
+              <option value="RC Toys">RC Toys</option>
+              <option value="Puzzles">Puzzles</option>
+              <option value="Vehicles">Vehicles</option>
               <option value="Educational">Educational</option>
               <option value="Robotics">Robotics</option>
-              <option value="Dolls">Dolls</option>
-              <option value="Action Figures">Action Figures</option>
-              <option value="Vehicle Toys">Vehicle Toys</option>
-            </select>
+              <option value="Outdoor Toys">Outdoor Toys</option>
+              <option value="Musical Instruments">Musical Instruments</option>
+              <option value="Outdoor Toys">Science Kits</option>
+           </select>
           </div>
 
           {/* Description */}
           <div className="form-control">
-            <label className="font-semibold">Description</label>
+            <label className="font-semibold text-blue-600">Description</label>
             <textarea
               name="description"
               required
               placeholder="Enter toy description..."
-              className="textarea textarea-bordered w-full"
+                      className="textarea textarea-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
           {/* Seller Email */}
           <div className="form-control">
-            <label className="font-semibold">Your Email</label>
+            <label className="font-semibold text-blue-600">Your Email</label>
             <input
               type="email"
               value={user?.email || ""}
               readOnly
-              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
             />
           </div>
 
           {/* Seller Name */}
           <div className="form-control">
-            <label className="font-semibold">Your Name</label>
+            <label className="font-semibold text-blue-600">Your Name</label>
             <input
               type="text"
           value={user?.name || user?.email?.split('@')[0] || ''}
               readOnly
-              className="input input-bordered w-full bg-gray-100 cursor-not-allowed"
+              className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
             />
           </div>
 
@@ -233,7 +227,7 @@ return (
           <button
         type="submit"
         disabled={submitting}
-         className="btn w-full bg-blue-500 text-white hover:bg-blue-700"
+         className="btn w-full py-6 bg-blue-500 text-white text-lg hover:bg-blue-700"
       >
         {submitting ? 'Adding…' : 'Add Toy'}
       </button>

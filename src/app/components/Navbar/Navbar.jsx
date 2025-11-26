@@ -85,18 +85,17 @@ export default function Navbar() {
           </div>
 
           {/* Logo */}
-          <Link
-            className="flex justify-center items-center gap-2 px-4 lg:px-0 text-2xl font-bold text-white"
-            href="/"
-          >
-            <Image width={50} height={50} src="/logo.png" alt="logo" unoptimized></Image>
-            Toy Haven
+         <Link href="/" className="flex flex-nowrap items-center gap-2 px-3 md:px-0  shrink-0">
+        <Image width={50} height={50} src="/logo.png" alt="logo" className="w-14 h-14" unoptimized />
+        <span className="whitespace-nowrap leading-none text-2xl md:text-3xl font-bold text-white tracking-tight">
+          Toy Haven
+          </span>
           </Link>
         </div>
 
         {/* Desktop navbar */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-white">{links}</ul>
+          <ul className="menu menu-horizontal px-1 text-xl text-white">{links}</ul>
         </div>
 
         {/* Right side */}
@@ -157,13 +156,13 @@ export default function Navbar() {
             <div className=" lg:flex gap-5 items-center">
               <Link
                 href="/login"
-                className="btn bg-white text-blue-500 font-semibold hover:bg-blue-100"
+                className="btn bg-white text-blue-500 font-semibold hover:bg-blue-50"
               >
                 Login
               </Link>
               <Link
                 href="/register"
-                className="hidden md:flex btn bg-white text-blue-500 font-semibold hover:bg-blue-100"
+                className="hidden md:flex btn bg-white text-blue-500 font-semibold hover:bg-blue-50"
               >
                 Register
               </Link>
