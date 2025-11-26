@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.17",
+    "aos": "^2.3.4",
     "bcryptjs": "^3.0.3",
     "daisyui": "^5.5.5",
     "dotenv": "^17.2.3",

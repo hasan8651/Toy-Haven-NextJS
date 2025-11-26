@@ -26,7 +26,7 @@ const HeaderSection = () => {
   const TOTAL_CYCLE = IMAGE_DURATION * images.length;
 
   return (
-    <section className="w-full py-8 md:py-16 bg-gradient-to-b from-blue-500 via-blue-400 to-white text-white overflow-hidden">
+    <section className="w-full py-8 md:py-16 bg-gradient-to-b from-blue-500 via-blue-400 to-white text-white rounded-b-md overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
 
         {/* Left Content */}
