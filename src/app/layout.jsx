@@ -35,7 +35,7 @@ return (
 <body className="min-h-dvh flex flex-col">
 <Providers>
 <Navbar />
-<main className="flex-1 pt-8">
+<main className="flex-1">
 {children}
 </main>
 <Footer />

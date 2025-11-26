@@ -54,7 +54,7 @@ export default function Navbar() {
   );
 
   return (
-    <div className="sticky top-0 z-50 bg-blue-500 text-white shadow-md mb-2">
+    <div className="sticky top-0 z-50 bg-blue-500 text-white shadow-md ">
       <div className="navbar">
         <div className="navbar-start">
           {/* Mobile dropdown */}
