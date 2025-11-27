@@ -7,7 +7,6 @@ export default function ToyCard({ toy }) {
   const { _id, toyName, pictureURL, price, rating, availableQuantity } =
     toy || {};
 
-
   return (
     <div data-aos="fade-up">
       <div className="card rounded-xl md:rounded-lg bg-blue-50 p-4 shadow-lg">

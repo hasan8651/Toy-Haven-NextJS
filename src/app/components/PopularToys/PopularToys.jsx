@@ -9,8 +9,7 @@ export default function PopularToys() {
 
   useEffect(() => {
     const ac = new AbortController();
-
-       fetch("/api/popular-toys", { signal: ac.signal })
+    fetch("/api/popular-toys", { signal: ac.signal })
       .then((res) => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -34,7 +33,7 @@ export default function PopularToys() {
 
   return (
     <div className="py-8">
-      <h1 className='text-2xl md:text-3xl py-4 mb-2 font-semibold text-center bg-blue-500 text-white rounded-t-md'>
+      <h1 className="text-2xl md:text-3xl py-4 mb-2 font-semibold text-center bg-blue-500 text-white rounded-t-md">
         Popular Toys
       </h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

@@ -2,13 +2,12 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import clientPromise from "@/lib/mongodb";
-// import { compare } from "bcryptjs";
 
 const authOptions = {
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     }),
 
     CredentialsProvider({
@@ -25,12 +24,7 @@ const authOptions = {
 
         if (!user) return null;
 
-        // If you used plain-text password:
         if (user.password !== credentials.password) return null;
-
-        // If you used bcrypt:
-        // const isMatch = await compare(credentials.password, user.password);
-        // if (!isMatch) return null;
 
         return {
           id: user._id.toString(),
@@ -38,30 +32,15 @@ const authOptions = {
           email: user.email,
           image: user.image,
         };
-      }
-    })
+      },
+    }),
   ],
 
-  // session: {
-  //   strategy: "jwt",
-  // },
-
-  // callbacks: {
-  //   async jwt({ token, user }) {
-  //     if (user) token.user = user;
-  //     return token;
-  //   },
-  //   async session({ session, token }) {
-  //     session.user = token.user;
-  //     return session;
-  //   },
-  // },
-
   pages: {
-    signIn: "/login"
+    signIn: "/login",
   },
 
-  secret: process.env.NEXTAUTH_SECRET
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

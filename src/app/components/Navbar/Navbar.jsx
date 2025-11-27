@@ -85,17 +85,29 @@ export default function Navbar() {
           </div>
 
           {/* Logo */}
-         <Link href="/" className="flex flex-nowrap items-center gap-2 px-3 md:px-0  shrink-0">
-        <Image width={50} height={50} src="/logo.png" alt="logo" className="w-14 h-14" unoptimized />
-        <span className="whitespace-nowrap leading-none text-2xl md:text-3xl font-bold text-white tracking-tight">
-          Toy Haven
-          </span>
+          <Link
+            href="/"
+            className="flex flex-nowrap items-center gap-2 px-3 md:px-0  shrink-0"
+          >
+            <Image
+              width={50}
+              height={50}
+              src="/logo.png"
+              alt="logo"
+              className="w-14 h-14"
+              unoptimized
+            />
+            <span className="whitespace-nowrap leading-none text-2xl md:text-3xl font-bold text-white tracking-tight">
+              Toy Haven
+            </span>
           </Link>
         </div>
 
         {/* Desktop navbar */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1 text-xl text-white">{links}</ul>
+          <ul className="menu menu-horizontal px-1 text-xl text-white">
+            {links}
+          </ul>
         </div>
 
         {/* Right side */}
@@ -111,13 +123,16 @@ export default function Navbar() {
                   title={user?.name || user?.email}
                   className="w-10 rounded-full border-2 border-white"
                 >
-                  <Image width={50} height={50}
+                  <Image
+                    width={50}
+                    height={50}
                     className="rounded-full"
                     src={
                       user?.image ||
                       "https://img.icons8.com/windows/32/user.png"
                     }
-                    alt="user photo" unoptimized
+                    alt="user photo"
+                    unoptimized
                   />
                 </div>
               </label>
@@ -127,13 +142,16 @@ export default function Navbar() {
                 className="mt-3 p-2 shadow dropdown-content bg-blue-500 text-white rounded-box w-52"
               >
                 <li className="flex justify-center items-center pb-2">
-                  <Image width={50} height={50}
+                  <Image
+                    width={50}
+                    height={50}
                     src={
                       user?.image ||
                       "https://img.icons8.com/windows/64/user.png"
                     }
                     alt="user photo"
-                    className="rounded-full border" unoptimized
+                    className="rounded-full border"
+                    unoptimized
                   />
                 </li>
                 <li className="text-center font-semibold border-b border-gray-200 pb-2">

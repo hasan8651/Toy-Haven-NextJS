@@ -11,13 +11,11 @@ export async function GET(req, context) {
 
     let toy = null;
 
-    // Search by ObjectId if valid
-    if (ObjectId.isValid(id)) {
+      if (ObjectId.isValid(id)) {
       toy = await toys.findOne({ _id: new ObjectId(id) });
     }
 
-    // Fallback: treat as string ID
-    if (!toy) {
+     if (!toy) {
       toy = await toys.findOne({ _id: id });
     }
 
@@ -31,26 +29,16 @@ export async function GET(req, context) {
   }
 }
 
-
-
-
-
 export async function PUT(req, context) {
-const { id } = await context.params; // no await
-
-
+const { id } = await context.params;
 
 try {
 const client = await clientPromise;
 const db = client.db('smart_db');
 const toys = db.collection('toys');
-
-
 const body = await req.json();
 
-// Allow only known fields
 const allowed = [
-  
   'toyName',
   'pictureURL',
   'description',
@@ -74,10 +62,6 @@ for (const key of allowed) {
   }
 }
 
-// if (Object.keys($set).length === 0) {
-//   return Response.json({ message: 'No valid fields to update' }, { status: 400 });
-// }
-
 $set.updatedAt = new Date();
 
 const filter =  { _id: new ObjectId(id) }
@@ -99,15 +83,6 @@ console.error(err);
 return Response.json({ error: 'server error' }, { status: 500 });
 }
 }
-
-
-
-
-
-
-
-
-
 
 export async function DELETE(req, context) {
   const { id } = await context.params;

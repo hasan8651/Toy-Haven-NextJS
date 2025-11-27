@@ -9,7 +9,8 @@ export async function POST(request) {
     const usersCollection = db.collection("users");
 
     const user = await usersCollection.findOne({ email });
-    if (!user) return Response.json({ message: "User not found" }, { status: 404 });
+    if (!user)
+      return Response.json({ message: "User not found" }, { status: 404 });
 
     if (user.password !== password) {
       return Response.json({ message: "Wrong password" }, { status: 401 });

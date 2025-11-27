@@ -1,15 +1,16 @@
+import Head from 'next/head';
 import Image from 'next/image';
-
 
 export default function page() {
 return (
 <div className="min-h-screen bg-blue-50 mb-2 mt-8 shadow-lg rounded-lg mx-2 md:mx-12">
+     <Head>
+        <title>Toy Haven - About Us</title>
+      </Head>
 <section className=" mx-auto px-6 py-10">
  <h1 className='w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md'>
 About Toy Haven
 </h1>
-
-
     <p className="max-w-5xl mx-auto text-gray-800 leading-relaxed text-lg mb-6 text-center">
       At <span className="font-semibold text-blue-500">Toy Haven</span>, we believe play
       sparks creativity and imagination. Since 2022, our mission has been to

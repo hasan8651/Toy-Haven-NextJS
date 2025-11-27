@@ -7,24 +7,21 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 export default function AddToy() {
-const { data: session, status } = useSession();
-const router = useRouter();
-const user = session?.user;
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const user = session?.user;
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
-
-  // Handle add toy submit
   const handleAddToy = async (e) => {
     e.preventDefault();
 
-
-if (!user?.email) {
-  Swal.fire('Login required', 'Please log in to add a toy.', 'info');
-  router.push('/login?callbackUrl=/add-toys');
-  return;
-}
+    if (!user?.email) {
+      Swal.fire("Login required", "Please log in to add a toy.", "info");
+      router.push("/login?callbackUrl=/add-toys");
+      return;
+    }
 
     const form = e.target;
 
@@ -40,56 +37,49 @@ if (!user?.email) {
       return;
     }
 
+    const newToy = {
+      toyName,
+      pictureURL,
+      price,
+      availableQuantity: quantity,
+      rating,
+      description,
+      Category: selectedCategory,
+      sellerName: user?.name || user?.email?.split("@")[0] || "Unknown",
+      sellerEmail: user?.email,
+    };
 
-      // Build new toy object
-      const newToy = {
-        toyName,
-        pictureURL,
-        price,
-        availableQuantity: quantity,
-        rating,
-        description,
-        Category: selectedCategory,
-        sellerName: user?.name || user?.email?.split('@')[0] || 'Unknown',
-  sellerEmail: user?.email
-      };
+    const res = await fetch("/api/toys", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(newToy),
+    });
+    const data = await res.json();
+    console.log("Created:", data);
 
-      // Send to backend
+    if (data?.insertedId) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        background: "#3b82f6",
+        color: "white",
+        title: "Toy Added Successfully",
+        showConfirmButton: false,
+        timer: 1500,
+      });
 
-const res = await fetch('/api/toys', {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(newToy),
-});
-const data = await res.json();
-console.log('Created:', data);
-
-
-
-      if (data?.insertedId) {
-        Swal.fire({
-          position: "top-end",
-          icon: "success",
-          background: "#3b82f6",
-          color: "white",
-          title: "Toy Added Successfully",
-          showConfirmButton: false,
-          timer: 1500,
-        });
-
-        form.reset();
-        setSelectedCategory("");
-      
-      }
-    if (status === 'loading') {
-return (
-<div className="p-6 flex items-center justify-center">
-<span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-<span className="ml-2 text-blue-600">Loading...</span>
-</div>
-);
+      form.reset();
+      setSelectedCategory("");
+    }
+    if (status === "loading") {
+      return (
+        <div className="p-6 flex items-center justify-center">
+          <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
+          <span className="ml-2 text-blue-600">Loading...</span>
+        </div>
+      );
+    }
   };
-  }
   return (
     <div className="flex justify-center items-center py-4">
       <Head>
@@ -97,7 +87,7 @@ return (
       </Head>
 
       <div className="shadow-lg bg-blue-50 rounded-xl p-8 max-w-2xl md:max-w-3xl w-full space-y-6 mx-4">
-       <h1 className='w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md'>
+        <h1 className="w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md">
           Add a New Toy
         </h1>
         <p className="text-center  text-blue-600 mb-4">
@@ -105,7 +95,6 @@ return (
         </p>
 
         <form onSubmit={handleAddToy} className="space-y-4">
-          {/* Toy Name */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Toy Name</label>
             <input
@@ -117,10 +106,11 @@ return (
             />
           </div>
 
-          {/* Image Upload */}
           <div className="form-control">
-            <label className="font-semibold text-blue-600">Toy Image (Paste Image URL)</label>
-                      <input
+            <label className="font-semibold text-blue-600">
+              Toy Image (Paste Image URL)
+            </label>
+            <input
               name="imageURL"
               type="url"
               placeholder="https://imagehosting.com/toy.jpg"
@@ -128,7 +118,6 @@ return (
             />
           </div>
 
-          {/* Price */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Price ($)</label>
             <input
@@ -141,7 +130,6 @@ return (
             />
           </div>
 
-          {/* Quantity */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Quantity</label>
             <input
@@ -153,7 +141,6 @@ return (
             />
           </div>
 
-          {/* Rating */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Rating (1–5)</label>
             <input
@@ -167,7 +154,6 @@ return (
             />
           </div>
 
-          {/* Category */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Category</label>
             <select
@@ -187,21 +173,19 @@ return (
               <option value="Outdoor Toys">Outdoor Toys</option>
               <option value="Musical Instruments">Musical Instruments</option>
               <option value="Outdoor Toys">Science Kits</option>
-           </select>
+            </select>
           </div>
 
-          {/* Description */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Description</label>
             <textarea
               name="description"
               required
               placeholder="Enter toy description..."
-                      className="textarea textarea-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
+              className="textarea textarea-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             />
           </div>
 
-          {/* Seller Email */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Your Email</label>
             <input
@@ -212,25 +196,23 @@ return (
             />
           </div>
 
-          {/* Seller Name */}
           <div className="form-control">
             <label className="font-semibold text-blue-600">Your Name</label>
             <input
               type="text"
-          value={user?.name || user?.email?.split('@')[0] || ''}
+              value={user?.name || user?.email?.split("@")[0] || ""}
               readOnly
               className="input input-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
             />
           </div>
 
-          {/* Submit Button */}
           <button
-        type="submit"
-        disabled={submitting}
-         className="btn w-full py-6 bg-blue-500 text-white text-lg hover:bg-blue-700"
-      >
-        {submitting ? 'Adding…' : 'Add Toy'}
-      </button>
+            type="submit"
+            disabled={submitting}
+            className="btn w-full py-6 bg-blue-500 text-white text-lg hover:bg-blue-700"
+          >
+            {submitting ? "Adding…" : "Add Toy"}
+          </button>
         </form>
       </div>
     </div>

@@ -1,20 +1,5 @@
 import clientPromise from "@/lib/mongodb";
 
-// export async function GET() {
-//   try {
-//     const client = await clientPromise;
-//     const db = client.db("smart_db");
-//     const toysCollection = db.collection("toys");
-
-//     const toys = await toysCollection.find().toArray();
-
-//     return Response.json(toys);
-//   } catch (err) {
-//     return Response.json({ error: "server error" }, { status: 500 });
-//   }
-// }
-
-
 export async function GET(req) {
   try {
     const client = await clientPromise;
@@ -32,7 +17,6 @@ export async function GET(req) {
       query.sellerEmail = email;
     }
 
-    // find() returns ALL matches → this fixes your issue
     const result = await toys.find(query).toArray();
 
     return Response.json(result);
@@ -41,10 +25,6 @@ export async function GET(req) {
     return Response.json({ error: "server error" }, { status: 500 });
   }
 }
-
-
-
-
 
 export async function POST(request) {
   try {

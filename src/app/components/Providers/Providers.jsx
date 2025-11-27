@@ -5,7 +5,6 @@ import 'aos/dist/aos.css';
 import { SessionProvider } from "next-auth/react";
 import { usePathname } from 'next/navigation';
 import { useEffect } from 'react';
-// import AuthNotifier from "../AuthNotifier/AuthNotifier";
 
 export default function Providers({ children }) {
 
@@ -25,14 +24,12 @@ window.addEventListener('load', onLoad);
 return () => window.removeEventListener('load', onLoad);
 }, []);
 
-// Re-run on route changes so new elements animate
 useEffect(() => {
 AOS.refresh();
 }, [pathname]);
 
 return (
 <SessionProvider>
-{/* <AuthNotifier /> */}
 {children}
 </SessionProvider>
 );

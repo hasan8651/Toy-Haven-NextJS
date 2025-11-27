@@ -6,7 +6,10 @@ export async function POST(request) {
     const { name, email, password, image } = body;
 
     if (!name || !email || !password || !image) {
-      return Response.json({ message: "Some fields are missing" }, { status: 400 });
+      return Response.json(
+        { message: "Some fields are missing" },
+        { status: 400 }
+      );
     }
 
     const client = await clientPromise;
