@@ -66,7 +66,7 @@ export default function Page() {
         All Toys
       </h1>
 
-      <form className="max-w-3xl mx-auto  mb-4 flex justify-center gap-3">
+      <form className="max-w-3xl mx-auto px-4 md:px-1 mb-4 flex flex-col md:flex-row justify-center gap-3">
         <input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
