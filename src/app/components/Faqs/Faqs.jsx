@@ -6,12 +6,12 @@ const faqs = [
   {
     question: "How long does delivery take?",
     answer:
-      "Within Dhaka, orders usually arrive in 2–3 business days. Outside Dhaka, delivery may take 3–5 business days depending on the courier and location.",
+      "Within Dhaka, orders usually arrive in 2-3 business days. Outside Dhaka, delivery may take 3-5 business days depending on the courier and location.",
   },
   {
     question: "What is your return and refund policy?",
     answer:
-      "You can request a return within 7 days of receiving your order if the toy is unused, in its original packaging, and has all tags/labels attached. Once we receive and inspect the item, we’ll process your refund or exchange.",
+      "You can request a return within 7 days of receiving your order if the toy is unused, in its original packaging, and has all tags/labels attached. Once we receive and inspect the item, we'll process your refund or exchange.",
   },
   {
     question: "Are your toys safe for children?",
@@ -31,11 +31,11 @@ const faqs = [
   {
     question: "How do I know if a toy is right for my child's age?",
     answer:
-      "Every toy on ToyTopia includes a recommended age range (e.g. Age 3+). You can also use filters like ‘Shop by Age’ on our site to quickly find age-appropriate toys.",
+      "Every toy on Toy Haven includes a recommended age range (e.g. Age 3+). You can also use filters like 'Shop by Age' on our site to quickly find age-appropriate toys.",
   },
 ];
 
-export default function FaqSection() {
+export default function Faqs() {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggle = (index) => {
@@ -43,13 +43,14 @@ export default function FaqSection() {
   };
 
   return (
-    <section className="bg-sky-50 py-12">
+    <section className="bg-blue-100 py-8">
       <div className="mx-auto max-w-4xl px-4">
-        <h2 className="text-center text-3xl font-bold text-sky-900">
+        <h2 className="text-center text-3xl font-bold text-blue-700">
           Frequently Asked Questions
         </h2>
-        <p className="mt-2 text-center text-sm text-slate-600">
-          ডেলিভারি, রিটার্ন, সেফটি আর প্রোডাক্ট সম্পর্কিত কমন প্রশ্নের উত্তর।
+        <p className="mt-2 text-center text-sm text-blue-500">
+          Answers to common questions about delivery, returns, safety, and
+          products.
         </p>
 
         <div className="mt-8 space-y-3">
@@ -66,16 +67,16 @@ export default function FaqSection() {
                   onClick={() => toggle(index)}
                   className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
                 >
-                  <span className="text-sm font-semibold text-slate-900">
+                  <span className="text-sm font-semibold text-blue-700">
                     {item.question}
                   </span>
-                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-sky-100 text-sky-700 text-xs">
-                    {isOpen ? "−" : "+"}
+                  <span className="flex h-6 w-6 items-center justify-center rounded-full bg-blue-100 text-blue-700 text-xs">
+                    {isOpen ? "-" : "+"}
                   </span>
                 </button>
 
                 {isOpen && (
-                  <div className="px-4 pb-4 text-sm text-slate-600">
+                  <div className="px-4 pb-4 text-sm text-blue-600">
                     {item.answer}
                   </div>
                 )}

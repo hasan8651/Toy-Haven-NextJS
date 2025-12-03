@@ -5,6 +5,7 @@ import PopularToys from "./components/PopularToys/PopularToys";
 import Status from "./components/Status/Status";
 import TrustSafetySection from "./components/TrustSafetySection/TrustSafetySection";
 import NewsLetter from "./components/NewsLetter/NewsLetter";
+import Faqs from "./components/Faqs/Faqs";
 
 export default function Home() {
   return (
@@ -13,8 +14,9 @@ export default function Home() {
              <Status />
       <PopularToys />
       <TrustSafetySection/>
-      <CustomerOpinion />
       <NewsLetter/>
+      <CustomerOpinion />
+      <Faqs/>
     </div>
   );
 }
