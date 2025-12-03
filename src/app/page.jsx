@@ -3,6 +3,7 @@ import CustomerOpinion from "./components/CustomerOpinion/CustomerOpinion";
 import Hero from "./components/Hero/Hero";
 import PopularToys from "./components/PopularToys/PopularToys";
 import Status from "./components/Status/Status";
+import TrustSafetySection from "./components/TrustSafetySection/TrustSafetySection";
 
 export default function Home() {
   return (
@@ -10,6 +11,7 @@ export default function Home() {
       <Hero />
              <Status />
       <PopularToys />
+      <TrustSafetySection/>
       <CustomerOpinion />
     </div>
   );
