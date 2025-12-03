@@ -1,52 +1,71 @@
-'use client';
+const opinions = [
+  {
+    name: "Mia",
+    role: "Mom of a 4-year-old",
+    quote:
+      "Best toy shop ever! My kid absolutely loves the wooden train set we got.",
+    rating: 4.9,
+  },
+  {
+    name: "John",
+    role: "Dad & STEM enthusiast",
+    quote:
+      "Quality toys at great prices. The robotics kit was a huge hit at home.",
+    rating: 4.8,
+  },
+  {
+    name: "Sara",
+    role: "Busy working parent",
+    quote:
+      "Fast delivery, friendly service and really safe toys. Highly recommended!",
+    rating: 4.6,
+  },
+];
+
+function Stars({ value }) {
+  return (
+    <div className="flex items-center gap-1 text-yellow-400">
+      {"★★★★★".split("").map((star, i) => (
+        <span key={i} className={i < Math.round(value) ? "" : "opacity-30"}>
+          ★
+        </span>
+      ))}
+      <span className="ml-1 text-sm font-semibold text-blue-200">
+        {value.toFixed(1)}/5
+      </span>
+    </div>
+  );
+}
 
 export default function CustomerOpinion() {
-return (
-<div className="mx-auto">
-{/* Story */}
-<section className="py-12 px-4 text-center bg-gradient-to-r from-blue-500 via-white to-blue-500 rounded-md shadow-xl mx-auto my-2" data-aos="fade-up" data-aos-easing="ease-in-out" >
-<h2 className="text-4xl font-extrabold text-blue-700 mb-4">Our Story</h2>
-<p className="max-w-2xl mx-auto leading-relaxed text-lg">
-Welcome to <span className="font-bold text-blue-700">Toy Haven</span> — where every smile begins! 🌈 Since 2010, we've been crafting joy with safe, creative, and educational toys. Our mission: turn every moment into magical playtime for kids around the world.
-</p>
-</section>
+  return (
+    <section className="bg-blue-500 text-white rounded-md shadow-xl mx-auto my-4 py-8">
+      <div className="mx-auto max-w-7xl px-4">
+        <h2 className="text-center text-3xl font-bold">
+          What Our Customers Say
+        </h2>
+        <p className="mt-2 text-center text-blue-200">
+          Real stories from families who shop at Toy Haven.
+        </p>
 
-  {/* Reviews */}
-  <section
-    className="py-12 bg-gradient-to-r from-blue-500 via-white to-blue-500 rounded-md shadow-xl mx-auto mt-8 mb-4"
-    data-aos="fade-up"
-    data-aos-easing="ease-in-out"
-  >
-    <h2 className="text-4xl font-extrabold text-center text-blue-700 mb-10">What Our Customers Say</h2>
-    <div className="flex flex-wrap justify-center gap-8 px-4">
-      <div
-        className="bg-white w-80 p-6 rounded-2xl shadow-xl transform hover:-translate-y-2 transition"
-        data-aos="zoom-in"
-        data-aos-easing="ease-in-out"
-      >
-        <p className="italic text-gray-600">"Best toy shop ever! My kids love everything."</p>
-        <h3 className="mt-4 font-bold text-indigo-500">- Mia</h3>
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {opinions.map((o) => (
+            <div
+              key={o.name}
+              className="flex flex-col items-start rounded-2xl p-4 shadow-xl ring-2 ring-blue-100"
+            >
+              <Stars value={o.rating} />
+              <p className="my-4 text-blue-100 italic">“{o.quote}”</p>
+              <div    className="items-center justify-center rounded-2xl bg-blue-200 px-6 py-2 font-semibold ">
+                <p className=" font-semibold text-blue-600">
+                  - {o.name}
+                </p>
+                <p className="text-sm text-blue-500/70">{o.role}</p>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
-
-      <div
-        className="bg-white w-80 p-6 rounded-2xl shadow-xl transform hover:-translate-y-2 transition"
-        data-aos="slide-up"
-        data-aos-easing="ease-in-out"
-      >
-        <p className="italic text-gray-600">"Quality toys at great prices!"</p>
-        <h3 className="mt-4 font-bold text-indigo-500">- John</h3>
-      </div>
-
-      <div
-        className="bg-white w-80 p-6 rounded-2xl shadow-xl transform hover:-translate-y-2 transition"
-        data-aos="zoom-in"
-        data-aos-easing="ease-in-out"
-      >
-        <p className="italic text-gray-600">"Fast delivery and friendly service!"</p>
-        <h3 className="mt-4 font-bold text-indigo-500">- Sara</h3>
-      </div>
-    </div>
-  </section>
-</div>
-);
+    </section>
+  );
 }
