@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
 
 export default function ToyDetails() {
   const { id } = useParams();
@@ -52,8 +53,7 @@ export default function ToyDetails() {
   if (loading) {
     return (
       <div className="bg-blue-100 min-h-screen flex items-center justify-center">
-        <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-        <span className="ml-2 text-blue-600">Loading…</span>
+   <LoadingSpinner/>
       </div>
     );
   }

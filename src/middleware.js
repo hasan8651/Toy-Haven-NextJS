@@ -12,6 +12,5 @@ matcher: [
 '/add-toys',
 '/manage-toys',
 '/edit-toy/(.+)',
-'/toys/(.+)'
 ]
 };

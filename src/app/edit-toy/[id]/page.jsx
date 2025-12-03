@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 import Head from "next/head";
 import { useParams, useRouter } from "next/navigation";
 import Swal from "sweetalert2";
+import LoadingSpinner from "@/app/components/LoadingSpinner/LoadingSpinner";
+
 
 export default function EditToy() {
   const { id } = useParams();
@@ -94,8 +96,7 @@ export default function EditToy() {
   if (loading) {
     return (
       <div className="p-6 flex items-center justify-center">
-        <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
-        <span className="ml-2 text-blue-600">Loading...</span>
+        <LoadingSpinner/>
       </div>
     );
   }
