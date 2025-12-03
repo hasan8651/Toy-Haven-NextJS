@@ -43,7 +43,7 @@ export default function Page() {
     return () => ac.abort();
   }, []);
 
-  // Filtered products based on search and category
+  // Filtered products based on search and category OK
   const filteredToys = toys.filter(
     (toy) =>
       toy.toyName.toLowerCase().includes(search.toLowerCase()) &&
@@ -51,7 +51,7 @@ export default function Page() {
   );
 
   if (loading) {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -60,8 +60,8 @@ export default function Page() {
 
   return (
     <div>
-        <Head>
-        <title>Toy haven - All Toys</title>
+      <Head>
+        <title>Toy Haven - All Toys</title>
       </Head>
       <h1 className="text-2xl md:text-3xl py-4 my-4 font-semibold text-center bg-blue-500 text-white rounded-md">
         All Toys
@@ -70,6 +70,7 @@ export default function Page() {
       <form className="max-w-3xl mx-auto px-4 md:px-1 mb-4 flex flex-col md:flex-row justify-center gap-3">
         <input
           value={search}
+          type="search"
           onChange={(e) => setSearch(e.target.value)}
           placeholder="Search toys…"
           className="md:w-2/5 rounded-md border font-semibold border-blue-500 px-3 py-2 outline-none focus:ring-2 focus:ring-blue-500"
@@ -85,17 +86,11 @@ export default function Page() {
             </option>
           ))}
         </select>
-        <button
-          type="submit"
-          className="md:w-1/5 rounded-md btn h-12 bg-blue-500 text-white hover:bg-blue-700  px-3 py-2"
-        >
-          Clear
-        </button>
       </form>
 
       {filteredToys.length === 0 ? (
-        <p className="text-center text-2xl py-16 font-bold text-red-600">
-          No toys found
+        <p className="text-center text-2xl py-16 font-bold animate-pulse text-red-600">
+          No toys found {/* react lottie need to be used */}
         </p>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 px-6">

@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function Status() {
 return (
-<div className="bg-blue-500 rounded-md my-2 shadow-xl">
+<div className="bg-blue-500 rounded-md mt-4 shadow-xl">
 <h2 className="text-center text-orange-100 text-2xl md:text-3xl font-semibold py-2" data-aos="zoom-in" data-aos-easing="ease-in-out" >
 Trusted by Thousands of Families, Loved by Kids Everywhere
 </h2>

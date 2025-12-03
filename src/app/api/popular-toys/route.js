@@ -6,7 +6,7 @@ export async function GET() {
     const db = client.db("smart_db");
     const toysCollection = db.collection("toys");
 
-    const toys = await toysCollection.find().limit(6).toArray();
+    const toys = await toysCollection.find().limit(8).toArray();
 
     return Response.json(toys);
   } catch (err) {

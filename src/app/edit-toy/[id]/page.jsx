@@ -109,8 +109,8 @@ export default function EditToy() {
       <Head>
         <title>Toy Haven - Edit Toy</title>
       </Head>
-      <div className="shadow-lg bg-blue-50 rounded-xl p-8 max-w-2xl w-full space-y-6 mx-4">
-        <h1 className="w-full text-2xl md:text-3xl py-4 mb-4 md:mb-12 font-semibold text-center bg-blue-500 text-white rounded-md">
+      <div className="shadow-lg bg-blue-100 rounded-xl p-8 max-w-2xl w-full space-y-6 mx-4">
+        <h1 className="w-full text-2xl md:text-3xl py-4 mb-4 font-semibold text-center bg-blue-500 text-white rounded-md">
           Edit Toy
         </h1>
         <p className="text-center  text-blue-600 mb-4">
@@ -185,19 +185,74 @@ export default function EditToy() {
               value={selectedCategory}
               required
               onChange={(e) => setSelectedCategory(e.target.value)}
-              className="select select-bordered w-full border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500 cursor-not-allowed"
+              className="select select-bordered w-full px-3 py-2 font-semibold border outline-none border-blue-500 focus:ring-2 focus:ring-blue-500"
             >
-              <option value="">Select Category</option>
-              <option value="Dolls">Dolls</option>
-              <option value="Soft Toys">Soft Toys</option>
-              <option value="RC Toys">RC Toys</option>
-              <option value="Puzzles">Puzzles</option>
-              <option value="Vehicles">Vehicles</option>
-              <option value="Educational">Educational</option>
-              <option value="Robotics">Robotics</option>
-              <option value="Outdoor Toys">Outdoor Toys</option>
-              <option value="Musical Instruments">Musical Instruments</option>
-              <option value="Outdoor Toys">Science Kits</option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value=""
+              >
+                Select Category
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Dolls"
+              >
+                Dolls
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Soft Toys"
+              >
+                Soft Toys
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="RC Toys"
+              >
+                RC Toys
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Puzzles"
+              >
+                Puzzles
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Vehicles"
+              >
+                Vehicles
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Educational"
+              >
+                Educational
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Robotics"
+              >
+                Robotics
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Outdoor Toys"
+              >
+                Outdoor Toys
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Musical Instruments"
+              >
+                Musical Instruments
+              </option>
+              <option
+                className="w-xs border rounded-none bg-blue-500 text-white hover:bg-blue-600"
+                value="Science Kits"
+              >
+                Science Kits
+              </option>
             </select>
           </div>
 
@@ -232,7 +287,7 @@ export default function EditToy() {
             />
           </div>
 
-          <button className="btn w-full py-6 bg-blue-500 text-white text-lg hover:bg-blue-700">
+          <button className="btn w-50 mx-auto block h-12  bg-blue-500 text-white text-lg hover:bg-blue-700">
             Update Toy
           </button>
         </form>

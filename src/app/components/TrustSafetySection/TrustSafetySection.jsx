@@ -33,7 +33,7 @@ export default function TrustSafetySection() {
           Why Parents Trust Toy Haven
         </h2>
         <p className="mt-2 text-center text-sm md:text-md text-blue-200">
-Safe, sustainable, and trusted toy shopping in one place
+          Safe, sustainable, and trusted toy shopping in one place
         </p>
 
         <div className="mt-8 grid gap-4 grid-cols-2 md:grid-cols-4">
@@ -48,9 +48,7 @@ Safe, sustainable, and trusted toy shopping in one place
               <h3 className="mt-3 text-lg font-semibold text-white">
                 {item.title}
               </h3>
-              <p className="mt-2 text-sm text-blue-100">
-                {item.description}
-              </p>
+              <p className="mt-2 text-sm text-blue-100">{item.description}</p>
             </div>
           ))}
         </div>

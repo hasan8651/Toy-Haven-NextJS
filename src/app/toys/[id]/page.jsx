@@ -51,7 +51,7 @@ export default function ToyDetails() {
 
   if (loading) {
     return (
-      <div className="bg-blue-50 min-h-screen flex items-center justify-center">
+      <div className="bg-blue-100 min-h-screen flex items-center justify-center">
         <span className="inline-block h-5 w-5 animate-spin rounded-full border-2 border-blue-500 border-t-transparent" />
         <span className="ml-2 text-blue-600">Loading…</span>
       </div>
@@ -65,7 +65,7 @@ export default function ToyDetails() {
   return (
     <div className="min-h-screen py-10 px-4">
       <Head>
-        <title>Toy haven - {toy.toyName}</title>
+        <title>Toy Haven - {toy.toyName}</title>
       </Head>
 
       <div className="max-w-xl mb-2">
@@ -78,7 +78,7 @@ export default function ToyDetails() {
         </button>
       </div>
 
-      <div className="max-w-5xl mx-auto bg-blue-50 shadow-xl rounded-lg overflow-hidden">
+      <div className="max-w-5xl mx-auto bg-blue-100 shadow-xl rounded-lg overflow-hidden">
         <div className="flex flex-col lg:flex-row">
           <div className="lg:w-1/2 flex items-center justify-center p-6">
             <Image
@@ -154,7 +154,7 @@ export default function ToyDetails() {
               <button
                 type="button"
                 onClick={handlePurchase}
-                className="btn bg-blue-500 hover:bg-blue-600 text-white w-full"
+                className="btn w-50 mx-auto block h-12  bg-blue-500 text-white text-lg hover:bg-blue-700"
               >
                 Purchase Now
               </button>
