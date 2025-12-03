@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import ToyCard from "../ToyCard/ToyCard";
+import LoadingSpinner from "../LoadingSpinner/LoadingSpinner";
 
 export default function PopularToys() {
   const [toys, setToys] = useState([]);
@@ -24,7 +25,7 @@ export default function PopularToys() {
   }, []);
 
   if (loading) {
-    return <p>Loading…</p>;
+    return <LoadingSpinner/>;
   }
 
   if (error) {

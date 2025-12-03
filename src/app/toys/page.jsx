@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import ToyCard from "../components/ToyCard/ToyCard";
 import Head from "next/head";
+import LoadingSpinner from "../components/LoadingSpinner/LoadingSpinner";
 
 const CATEGORY_OPTIONS = [
   "All",
@@ -50,7 +51,7 @@ export default function Page() {
   );
 
   if (loading) {
-    return <p>Loading…</p>;
+    return <LoadingSpinner/>;
   }
 
   if (error) {

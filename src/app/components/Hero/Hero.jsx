@@ -1,130 +1,143 @@
 "use client";
 
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
-const images = ["/image1.jpg", "/image2.jpg", "/image3.jpg", "/image4.jpg"];
+const slides = [
+  {
+    image: "/image1.jpg",
+    campaign: "STEM Week Sale - 20% off on STEM & Robotics toys",
+  },
+  {
+    image: "/image2.jpg",
+    campaign: "New Arrivals - Fresh picks for ages 3-5",
+  },
+  {
+    image: "/image3.jpg",
+    campaign: "Best Sellers - Toys loved by thousands of parents",
+  },
+  {
+    image: "/image4.jpg",
+    campaign: "Outdoor Fun - Up to 15% off on sports & outdoor toys",
+  },
+];
 
-const HeaderSection = () => {
-  const { data: session } = useSession();
+const IMAGE_DURATION = 12; // seconds
+
+export default function HeaderSection () {
   const router = useRouter();
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const handleStart = () => {
-    if (session?.user) return router.push("/manage-toys");
-    router.push("/login");
+  // Auto‑change slide OK
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % slides.length);
+    }, IMAGE_DURATION * 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const currentSlide = slides[currentIndex];
+
+  const handleShopNow = () => {
+    router.push("/toys");
   };
 
-  const handleExplore = () => {
-    if (session?.user) return router.push("/add-toys");
-    router.push("/register");
+  const handleViewBestSellers = () => {
+    router.push("/toys"); //?filter=best-sellers  need update
   };
-
-  const IMAGE_DURATION = 12;
-  const TOTAL_CYCLE = IMAGE_DURATION * images.length;
 
   return (
-    <section className="w-full py-8 md:py-16 bg-gradient-to-b from-blue-500 via-blue-400 to-white text-white rounded-b-md overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row items-center gap-10">
-        {/* Left Content */}
-        <div className="w-full md:w-1/2 text-center md:text-left">
-          <h1 className="text-5xl md:text-6xl">
-            <span className="font-bold">Toy Haven</span>
-            <br />
-            <span className="text-xl md:text-2xl">
-              {" "}
-              - Buy & Sell Toys Easily
-            </span>
+    <section className="relative w-full  text-white overflow-hidden">
+      {/* Background Slideshow OK */}
+      <div className="absolute inset-0">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentSlide.image}
+            className="absolute inset-0"
+            initial={{ opacity: 0, scale: 1.1 }}
+            animate={{ opacity: 1, scale: 1.2 }}
+            exit={{ opacity: 0 }}
+            transition={{
+              opacity: { duration: 1.2, ease: "easeInOut" }, // crossfade
+              scale: { duration: IMAGE_DURATION, ease: "linear" }, // slow zoom
+            }}
+          >
+            <Image
+              src={currentSlide.image}
+              alt="Hero Background"
+              fill
+              priority={currentIndex === 0}
+              className="object-cover"
+            />
+
+            {/* Shine effect OK */}
+            <motion.div
+              className="absolute inset-0 pointer-events-none"
+              initial={{ x: "-200%" }}
+              animate={{ x: "200%" }}
+              transition={{
+                duration: 2,
+                ease: "easeInOut",
+                delay: 2,
+                repeat: Infinity,
+                repeatDelay: 4,
+              }}
+              style={{
+                background:
+                  "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
+                width: "140%",
+                height: "260%",
+                transform: "rotate(25deg)",
+                filter: "blur(10px)",
+              }}
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Gradient overlay for read text OK */}
+      <div className="absolute inset-0 bg-gradient-to-b from-blue-900/70 via-blue-900/40 to-black/70" />
+
+      {/* Foreground content OK */}
+      <div className="relative z-10 max-w-7xl mx-auto h-full px-4 py-6 md:py-4 flex items-center">
+        <div className="w-full md:w-2/3 lg:w-1/2">
+          {/* Campaign (changes per slide) */}
+          <div className="inline-flex items-center rounded-full bg-white/10 px-3 py-1 text-xs font-medium text-blue-200 backdrop-blur-sm border border-blue-500/20">
+            <span className="mr-2 h-1.5 w-1.5 rounded-full bg-blue-400" />
+            <span>{currentSlide.campaign}</span>
+          </div>
+
+          {/* Main Heading OK */}
+          <h1 className="mt-4 text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            Discover Safe & <br/> Educational Toys <br/> for Every Age
           </h1>
 
-          <p className="mt-4 text-lg md:text-2xl text-gray-200 max-w-2xl">
-            Find the best toy deals, buy/sell your toys, and join a trusted
-            online shop.
+          {/* Subheading OK */}
+          <p className="mt-4 text-base md:text-xl text-gray-200 max-w-xl">
+            Handpicked toys trusted by thousands of parents since 2010.
           </p>
 
-          <div className="mt-8 flex flex-col md:flex-row items-center gap-4 justify-center md:justify-start">
-            <button
-              onClick={handleStart}
-              className="btn py-6 w-40 shadow-md text-xl bg-blue-500 text-white hover:bg-blue-700 hover:scale-[1.02] transition"
-            >
-              {session?.user ? "My Toys" : "Get Started"}
+          {/* CTA need update */}
+         <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-4 w-3/7 md:w-4/7">
+          <button onClick={handleShopNow} className="inline-flex w-full items-center justify-center rounded-full border border-blue-500 bg-blue-500/10 py-3 text-sm md:text-lg font-semibold text-white backdrop-blur-sm transition hover:bg-blue-600 cursor-pointer">
+            Shop Now
             </button>
+            <button onClick={handleViewBestSellers} className="inline-flex w-full items-center justify-center rounded-full border border-blue-500 bg-blue-500/10 py-3 text-sm md:text-lg font-semibold text-white backdrop-blur-sm transition hover:bg-blue-600 cursor-pointer">
+View Best Sellers
+</button> 
+</div>
 
-            <button
-              onClick={handleExplore}
-              className="btn py-6 w-40 shadow-md text-xl bg-blue-500 text-white hover:bg-blue-700 hover:scale-[1.02] transition"
-            >
-              {session?.user ? "Add Toys" : "Register"}
-            </button>
-          </div>
-
-          <div className="mt-6 flex flex-wrap gap-4 justify-center md:justify-start md:font-semibold text-blue-700">
-            <span>🔒 Secure transactions</span>
-            <span>⚡ Fast listings</span>
-            <span>🛒 Trusted ToyShop</span>
-          </div>
-        </div>
-
-        {/* Right — Ken Burns Slideshow */}
-        <div className="w-full lg:w-6/12 flex justify-center">
-          <div className="relative w-[600px] h-[400px] overflow-hidden rounded-xl">
-            {images.map((src, i) => (
-              <motion.div
-                key={i}
-                className="absolute inset-0 rounded-xl overflow-hidden"
-                style={{
-                  zIndex: images.length - i,
-                }}
-                initial={{ opacity: 0, scale: 1.1 }}
-                animate={{
-                  opacity: [0, 1, 1, 0],
-                  scale: [1.1, 1.2],
-                }}
-                transition={{
-                  duration: IMAGE_DURATION,
-                  delay: i * IMAGE_DURATION,
-                  repeat: Infinity,
-                  repeatDelay: TOTAL_CYCLE - IMAGE_DURATION,
-                  ease: "easeInOut",
-                }}
-              >
-                <Image
-                  src={src}
-                  width={500}
-                  height={100}
-                  className="w-full h-full object-cover rounded-xl"
-                  alt="Banner Image"
-                />
-
-                {/* Shine */}
-                <motion.div
-                  className="absolute inset-0 pointer-events-none"
-                  initial={{ x: "-200%" }}
-                  animate={{ x: "200%" }}
-                  transition={{
-                    duration: 2,
-                    ease: "easeInOut",
-                    delay: i * IMAGE_DURATION + 5,
-                    repeat: Infinity,
-                    repeatDelay: TOTAL_CYCLE - 2,
-                  }}
-                  style={{
-                    background:
-                      "linear-gradient(120deg, transparent 0%, rgba(255,255,255,0.35) 50%, transparent 100%)",
-                    width: "140%",
-                    height: "260%",
-                    transform: "rotate(25deg)",
-                    filter: "blur(10px)",
-                  }}
-                />
-              </motion.div>
-            ))}
+          {/* Trust badges OK */}
+          <div className="mt-6 flex md:flex-row flex-col gap-4 text-sm ">
+            <span>🔒 Secure checkout</span>
+            <span>📦 Fast delivery across Bangladesh</span>
+            <span>✅ Safety-tested toys only</span>
           </div>
         </div>
       </div>
     </section>
   );
 };
-
-export default HeaderSection;
